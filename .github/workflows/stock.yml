@@ -1,0 +1,54 @@
+
+name: STOCK-001 Digital Calm 4K
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render-stock:
+    name: Render STOCK-001 UHD
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Prepare browser
+        run: npx remotion browser ensure
+
+      - name: Create output folder
+        run: mkdir -p out
+
+      - name: Render STOCK-001 4K
+        run: |
+          npx remotion render \
+            src/stock-index.jsx \
+            Stock001 \
+            out/STOCK-001-Digital-Calm.mp4 \
+            --codec=h264 \
+            --crf=18 \
+            --pixel-format=yuv420p \
+            --concurrency=2
+
+      - name: Verify video
+        run: test -s out/STOCK-001-Digital-Calm.mp4
+
+      - name: Upload MP4
+        uses: actions/upload-artifact@v4
+        with:
+          name: STOCK-001-Digital-Calm-4K
+          path: out/STOCK-001-Digital-Calm.mp4
+          if-no-files-found: error
+          retention-days: 7
