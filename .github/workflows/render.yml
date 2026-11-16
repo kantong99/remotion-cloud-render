@@ -1,0 +1,55 @@
+
+name: Remotion Cloud Rendering
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    name: Render Full HD Video
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install project dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Prepare Remotion browser
+        run: npx remotion browser ensure
+
+      - name: Create output directory
+        run: mkdir -p out
+
+      - name: Render Full HD MP4
+        run: >
+          npx remotion render
+          src/index.jsx
+          FirstVideo
+          out/video.mp4
+          --codec=h264
+          --crf=23
+          --concurrency=2
+
+      - name: Verify rendered video
+        run: |
+          test -s out/video.mp4
+          ls -lh out/video.mp4
+
+      - name: Upload MP4 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: remotion-fullhd-video
+          path: out/video.mp4
+          if-no-files-found: error
+          retention-days: 7
