@@ -2,6 +2,7 @@
 import React from "react";
 import { Composition, registerRoot } from "remotion";
 import { DigitalCalm } from "./projects/DigitalCalm";
+import { FutureFlux } from "../FutureFlux";
 
 const StockRoot = () => (
   <Composition
