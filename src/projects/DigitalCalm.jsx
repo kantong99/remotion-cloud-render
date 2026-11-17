@@ -6,7 +6,7 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 // SETTINGS - EDIT BAGIAN INI
 // =====================================
 
-const STYLE = "rainbow fluid";
+const STYLE = "geometry";
 // Pilihan: "rainbow", "neon", "geometry"
 
 const DURATION = 600;
