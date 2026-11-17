@@ -12,6 +12,13 @@ const StockRoot = () => (
     height={2160}
     fps={30}
     durationInFrames={600}
+  <Composition
+    id="STOCK-002"
+    component={FutureFlux}
+    durationInFrames={600}
+    fps={30}
+    width={3840}
+    height={2160}
   />
 );
 
