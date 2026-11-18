@@ -2,6 +2,7 @@
 import React from "react";
 import { Composition, registerRoot } from "remotion";
 import { DigitalCalm } from "./projects/DigitalCalm";
+import { PigeonVideo } from "./projects/PigeonCollection";
 
 const StockRoot = () => {
   return (
